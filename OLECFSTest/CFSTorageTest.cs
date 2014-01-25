@@ -358,5 +358,25 @@ namespace OpenMcdfTest
                 File.Delete("$Hel2");
             }
         }
+
+        [TestMethod]
+        public void Test_HAS_STORAGE_METHOD()
+        {
+            CompoundFile cf = new CompoundFile();
+
+            Assert.IsFalse(cf.RootStorage.ExistsStorage("AStorageName"));
+            cf.RootStorage.AddStorage("AStorageName");
+            Assert.IsTrue(cf.RootStorage.ExistsStorage("AStorageName"));
+        }
+
+        [TestMethod]
+        public void Test_HAS_STREAM_METHOD()
+        {
+            var cf = new CompoundFile();
+
+            Assert.IsFalse(cf.RootStorage.ExistsStream("AStreamName"));
+            cf.RootStorage.AddStream("AStreamName");
+            Assert.IsTrue(cf.RootStorage.ExistsStream("AStreamName"));
+        }
     }
 }
