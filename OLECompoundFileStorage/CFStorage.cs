@@ -196,11 +196,6 @@ namespace OpenMcdf
 
             CFMock tmp = new CFMock(streamName, StgType.StgStream);
 
-            //if (children == null)
-            //{
-            //    children = compoundFile.GetChildrenTree(SID);
-            //}
-
             CFItem outDe = null;
 
             if (Children.TryFind(tmp, out outDe) && outDe.DirEntry.StgType == StgType.StgStream)
@@ -241,15 +236,12 @@ namespace OpenMcdf
         /// </example>
         public bool ExistsStream(string streamName)
         {
-            try
-            {
-                CFStream existsStream = GetStream(streamName);
-                return true;
-            }
-            catch (CFItemNotFound)
-            {
-                return false;
-            }
+            CheckDisposed();
+
+            var tmp = new CFMock(streamName, StgType.StgStream);
+
+            CFItem outDe = null;
+            return Children.TryFind(tmp, out outDe) && outDe.DirEntry.StgType == StgType.StgStream;
         }
 
 
@@ -313,15 +305,12 @@ namespace OpenMcdf
         /// </example>
         public bool ExistsStorage(string storageName)
         {
-            try
-            {
-                CFStorage existsStorage = GetStorage(storageName);
-                return true;
-            }
-            catch (CFItemNotFound)
-            {
-                return false;
-            }
+            CheckDisposed();
+
+            var tmp = new CFMock(storageName, StgType.StgStorage);
+
+            CFItem outDe = null;
+            return Children.TryFind(tmp, out outDe) && outDe.DirEntry.StgType == StgType.StgStorage;
         }
 
 

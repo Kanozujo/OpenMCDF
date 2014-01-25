@@ -360,7 +360,7 @@ namespace OpenMcdfTest
         }
 
         [TestMethod]
-        public void Test_HAS_STORAGE_METHOD()
+        public void Test_EXISTS_STORAGE_METHOD()
         {
             CompoundFile cf = new CompoundFile();
 
@@ -370,7 +370,7 @@ namespace OpenMcdfTest
         }
 
         [TestMethod]
-        public void Test_HAS_STREAM_METHOD()
+        public void Test_EXISTS_STREAM_METHOD()
         {
             var cf = new CompoundFile();
 
