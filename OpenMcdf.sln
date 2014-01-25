@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFiles", "TestFiles", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMcdf", "OLECompoundFileStorage\OpenMcdf.csproj", "{56E15D4A-8A37-4C7C-BB44-FD59AFF220C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructuredStorageExplorer", "TESTOpenMCDF\StructuredStorageExplorer.csproj", "{4F6323A8-9C06-4D94-808F-EBD69B8370D7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMcdfTest", "OLECFSTest\OpenMcdfTest.csproj", "{FD339266-8842-40B4-9230-F8E84FC42AC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMcdfMemTest", "OleCfsMemoryTest\OpenMcdfMemTest.csproj", "{E2BAD82D-3040-462B-BAA2-6E608A9054F4}"
@@ -43,10 +41,6 @@ Global
 		{56E15D4A-8A37-4C7C-BB44-FD59AFF220C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56E15D4A-8A37-4C7C-BB44-FD59AFF220C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56E15D4A-8A37-4C7C-BB44-FD59AFF220C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F6323A8-9C06-4D94-808F-EBD69B8370D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F6323A8-9C06-4D94-808F-EBD69B8370D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F6323A8-9C06-4D94-808F-EBD69B8370D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F6323A8-9C06-4D94-808F-EBD69B8370D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD339266-8842-40B4-9230-F8E84FC42AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD339266-8842-40B4-9230-F8E84FC42AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD339266-8842-40B4-9230-F8E84FC42AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
