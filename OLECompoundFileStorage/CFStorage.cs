@@ -213,6 +213,46 @@ namespace OpenMcdf
             }
         }
 
+
+        /// <summary>
+        /// Checks whether a child stream exists in the parent.
+        /// </summary>
+        /// <param name="streamName">Name of the stream to look for</param>
+        /// <returns>A boolean value indicating whether the child stream exists.</returns>
+        /// <example>
+        /// <code>
+        /// String filename = "report.xls";
+        ///
+        /// CompoundFile cf = new CompoundFile(filename);
+        /// 
+        /// bool exists = ExistsStream("Workbook");
+        /// 
+        /// if exists
+        /// {
+        ///     CFStream foundStream = cf.RootStorage.GetStream("Workbook");
+        /// 
+        ///     byte[] temp = foundStream.GetData();
+        /// }
+        ///
+        /// Assert.IsNotNull(temp);
+        ///
+        /// cf.Close();
+        /// </code>
+        /// </example>
+        public bool ExistsStream(string streamName)
+        {
+            try
+            {
+                CFStream existsStream = GetStream(streamName);
+                return true;
+            }
+            catch (CFItemNotFound)
+            {
+                return false;
+            }
+        }
+
+
         /// <summary>
         /// Get a named storage contained in the current one if existing.
         /// </summary>
@@ -246,6 +286,41 @@ namespace OpenMcdf
             else
             {
                 throw new CFItemNotFound("Cannot find item [" + storageName + "] within the current storage");
+            }
+        }
+
+
+        /// <summary>
+        /// Checks if a child storage exists within the parent.
+        /// </summary>
+        /// <param name="storageName">Name of the storage to look for.</param>
+        /// <returns>A boolean value indicating whether the child storage was found.</returns>
+        /// <example>
+        /// <code>
+        /// String FILENAME = "MultipleStorage2.cfs";
+        /// CompoundFile cf = new CompoundFile(FILENAME, UpdateMode.ReadOnly, false, false);
+        ///
+        /// bool exists = cf.RootStorage.ExistsStorage("MyStorage");
+        /// 
+        /// if exists
+        /// {
+        ///     CFStorage st = cf.RootStorage.GetStorage("MyStorage");
+        /// }
+        /// 
+        /// Assert.IsNotNull(st);
+        /// cf.Close();
+        /// </code>
+        /// </example>
+        public bool ExistsStorage(string storageName)
+        {
+            try
+            {
+                CFStorage existsStorage = GetStorage(storageName);
+                return true;
+            }
+            catch (CFItemNotFound)
+            {
+                return false;
             }
         }
 
