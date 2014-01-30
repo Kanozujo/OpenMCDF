@@ -73,7 +73,7 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile("MultipleStorage_Deleted_Compress.cfs", UpdateMode.Update, true, true);
 
-            CFStorage st = cf.RootStorage.GetStorage("MyStorage");
+            ICFStorage st = cf.RootStorage.GetStorage("MyStorage");
             st = st.GetStorage("AnotherStorage");
 
             Assert.IsNotNull(st);
@@ -102,14 +102,14 @@ namespace OpenMcdfTest
 
             // Try Storage entry name with max characters.
             Assert.IsNotNull(cf.RootStorage.AddStorage(maxCharactersStorageName));
-            CFStorage strg = cf.RootStorage.GetStorage(maxCharactersStorageName);
+            ICFStorage strg = cf.RootStorage.GetStorage(maxCharactersStorageName);
             Assert.IsNotNull(strg);
             Assert.IsTrue(strg.Name == maxCharactersStorageName);
 
 
             // Try Stream entry name with max characters.
             Assert.IsNotNull(cf.RootStorage.AddStream(maxCharactersStreamName));
-            CFStream strm = cf.RootStorage.GetStream(maxCharactersStreamName);
+            ICFStream strm = cf.RootStorage.GetStream(maxCharactersStreamName);
             Assert.IsNotNull(strm);
             Assert.IsTrue(strm.Name == maxCharactersStreamName);
 
@@ -150,7 +150,7 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile(FILENAME);
 
-            CFStorage st = cf.RootStorage.GetStorage("MyStorage");
+            ICFStorage st = cf.RootStorage.GetStorage("MyStorage");
             st = st.GetStorage("AnotherStorage");
 
             Assert.IsNotNull(st);
@@ -174,8 +174,8 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile(CFSVersion.Ver_4, true, true);
 
-            CFStorage st = cf.RootStorage.AddStorage("MyStorage");
-            CFStream sm = st.AddStream("MyStream");
+            ICFStorage st = cf.RootStorage.AddStorage("MyStorage");
+            ICFStream sm = st.AddStream("MyStream");
             byte[] b = new byte[220];
             sm.SetData(b);
 
@@ -183,8 +183,8 @@ namespace OpenMcdfTest
             cf.Close();
 
             CompoundFile cf2 = new CompoundFile(filename);
-            CFStorage st2 = cf2.RootStorage.GetStorage("MyStorage");
-            CFStream sm2 = st2.GetStream("MyStream");
+            ICFStorage st2 = cf2.RootStorage.GetStorage("MyStorage");
+            ICFStream sm2 = st2.GetStream("MyStream");
 
             Assert.IsNotNull(sm2);
             Assert.IsTrue(sm2.Size == 220);
@@ -199,8 +199,8 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile(CFSVersion.Ver_4, true, true);
 
-            CFStorage st = cf.RootStorage.AddStorage("MyStorage");
-            CFStream sm = st.AddStream("MyStream");
+            ICFStorage st = cf.RootStorage.AddStorage("MyStorage");
+            ICFStream sm = st.AddStream("MyStream");
             byte[] b = Helpers.GetBuffer(227);
             sm.SetData(b);
 
@@ -208,8 +208,8 @@ namespace OpenMcdfTest
             cf.Close();
 
             CompoundFile cf2 = new CompoundFile(filename);
-            CFStorage st2 = cf2.RootStorage.GetStorage("MyStorage");
-            CFStream sm2 = st2.GetStream("MyStream");
+            ICFStorage st2 = cf2.RootStorage.GetStorage("MyStorage");
+            ICFStream sm2 = st2.GetStream("MyStream");
 
             Assert.IsNotNull(sm2);
             Assert.IsTrue(sm2.Size == b.Length);
@@ -224,7 +224,7 @@ namespace OpenMcdfTest
             File.Copy(filename, "reportOPENFROMSTREAM.xls");
             FileStream fs = new FileStream(filename, FileMode.Open);
             CompoundFile cf = new CompoundFile(fs);
-            CFStream foundStream = cf.RootStorage.GetStream("Workbook");
+            ICFStream foundStream = cf.RootStorage.GetStream("Workbook");
 
             byte[] temp = foundStream.GetData();
 
@@ -254,7 +254,7 @@ namespace OpenMcdfTest
         public void Test_OPEN_COMPOUND_BUG_FIX_133()
         {
             var f = new CompoundFile("testbad.ole");
-            CFStream cfs = f.RootStorage.GetStream("\x01Ole10Native");
+            ICFStream cfs = f.RootStorage.GetStream("\x01Ole10Native");
             byte[] data = cfs.GetData();
             Assert.IsTrue(data.Length == 18140);
         }
@@ -263,7 +263,7 @@ namespace OpenMcdfTest
         public void Test_COMPARE_DIR_ENTRY_NAME_BUG_FIX_ID_3487353()
         {
             var f = new CompoundFile("report_name_fix.xls", UpdateMode.Update, true, true);
-            CFStream cfs = f.RootStorage.AddStream("Poorbook");
+            ICFStream cfs = f.RootStorage.AddStream("Poorbook");
             cfs.AppendData(Helpers.GetBuffer(20));
             f.Commit();
             f.Close();
@@ -318,7 +318,7 @@ namespace OpenMcdfTest
 
             // Test Phase 1
             var cfTest = new CompoundFile("OneStream.cfs");
-            CFStream testSt = cfTest.RootStorage.GetStream("A");
+            ICFStream testSt = cfTest.RootStorage.GetStream("A");
 
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bA.Length);
@@ -445,11 +445,11 @@ namespace OpenMcdfTest
             Assert.IsTrue(new FileInfo("6_Streams_Shrinked.cfs").Length < new FileInfo("6_Streams.cfs").Length);
 
             cfTest = new CompoundFile("6_Streams_Shrinked.cfs");
-            VisitedEntryAction va = delegate(CFItem item)
+            VisitedEntryAction va = delegate(ICFItem item)
             {
                 if (item.IsStream)
                 {
-                    CFStream ia = item as CFStream;
+                    ICFStream ia = item as ICFStream;
                     Assert.IsNotNull(ia);
                     Assert.IsTrue(ia.Size > 0);
                     byte[] d = ia.GetData();
@@ -615,7 +615,7 @@ namespace OpenMcdfTest
             try
             {
                 f = new CompoundFile();
-                CFStream st = f.RootStorage.AddStream("LargeStream");
+                ICFStream st = f.RootStorage.AddStream("LargeStream");
                 st.AppendData(Helpers.GetBuffer(20000000, 0x0A)); //Forcing creation of two DIFAT sectors
                 byte[] b1 = Helpers.GetBuffer(3, 0x0B);
                 st.AppendData(b1); //Forcing creation of two DIFAT sectors

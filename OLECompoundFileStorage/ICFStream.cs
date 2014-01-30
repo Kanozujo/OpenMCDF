@@ -1,55 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using BinaryTrees;
-
-/*
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
-
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
-
-     The Original Code is OpenMCDF - Compound Document Format library.
-
-     The Initial Developer of the Original Code is Federico Blaseotto.
-*/
 
 namespace OpenMcdf
 {
-
-    /// <summary>
-    /// OLE structured storage <see cref="T:OpenMcdf.CFStream">stream</see> Object
-    /// It is contained inside a Storage object in a file-directory
-    /// relationship and indexed by its name.
-    /// </summary>
-    public class CFStream : CFItem, ICFStream
+    public interface ICFStream : ICFItem
     {
-
-        internal CFStream(CompoundFile sectorManager)
-            : base(sectorManager)
-        {
-            this.DirEntry = new DirectoryEntry(StgType.StgStream);
-            this.DirEntry.StgColor = StgColor.Black;
-
-            sectorManager.InsertNewDirectoryEntry(this.DirEntry);
-            
-        }
-
-        internal CFStream(CompoundFile sectorManager, IDirectoryEntry dirEntry)
-            : base(sectorManager)
-        {
-            if (dirEntry == null || dirEntry.SID < 0)
-                throw new CFException("Attempting to add a CFStream using an unitialized directory");
-
-            this.DirEntry = dirEntry;
-        }
-
         /// <summary>
         /// Set the data associated with the stream object.
         /// </summary>
@@ -62,12 +16,7 @@ namespace OpenMcdf
         /// </code>
         /// </example>
         /// <param name="data">Data bytes to write to this stream</param>
-        public void SetData(Byte[] data)
-        {
-            CheckDisposed();
-
-            this.CompoundFile.SetData(this, data);
-        }
+        void SetData(Byte[] data);
 
         /// <summary>
         /// Append the provided data to stream data.
@@ -92,18 +41,7 @@ namespace OpenMcdf
         /// Append data can also be invoked on streams with no data in order
         /// to simplify its use inside loops.
         /// </remarks>
-        public void AppendData(Byte[] data)
-        {
-            CheckDisposed();
-            if (this.Size > 0)
-            {
-                this.CompoundFile.AppendData(this, data);
-            }
-            else
-            {
-                this.CompoundFile.SetData(this, data);
-            }
-        }
+        void AppendData(Byte[] data);
 
         /// <summary>
         /// Get the data associated with the stream object.
@@ -119,12 +57,7 @@ namespace OpenMcdf
         /// <exception cref="T:OpenMcdf.CFDisposedException">
         /// Raised when the owner compound file has been closed.
         /// </exception>
-        public Byte[] GetData()
-        {
-            CheckDisposed();
-
-            return this.CompoundFile.GetData(this);
-        }
+        Byte[] GetData();
 
         /// <summary>
         /// Get <paramref name="count"/> bytes associated with the stream object, starting from
@@ -145,33 +78,6 @@ namespace OpenMcdf
         /// <exception cref="T:OpenMcdf.CFDisposedException">
         /// Raised when the owner compound file has been closed.
         /// </exception>
-        public Byte[] GetData(long offset, ref int count)
-        {
-            CheckDisposed();
-
-            return this.CompoundFile.GetData(this, offset, ref count);
-        }
-
-        /// <summary>
-        /// Copy data from an existing stream.
-        /// </summary>
-        /// <param name="input">A stream to read from</param>
-        /// <remarks>
-        /// Input stream is NOT closed after method invocation.
-        /// </remarks>
-        public void CopyFrom(Stream input)
-        {
-            CheckDisposed();
-
-            byte[] buffer = new byte[input.Length];
-
-            if (input.CanSeek)
-            {
-                input.Seek(0, SeekOrigin.Begin);
-            }
-
-            input.Read(buffer, 0, (int)input.Length);
-            this.SetData(buffer);
-        }
+        Byte[] GetData(long offset, ref int count);
     }
 }

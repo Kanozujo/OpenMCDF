@@ -137,7 +137,7 @@ namespace OpenMcdfMemTest
             byte[] cmp = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7 };
 
             CompoundFile cf = new CompoundFile(CFSVersion.Ver_4, false, false);
-            CFStream st = cf.RootStorage.AddStream("MySuperLargeStream");
+            ICFStream st = cf.RootStorage.AddStream("MySuperLargeStream");
             cf.Save("LARGE.cfs");
             cf.Close();
 
@@ -145,7 +145,7 @@ namespace OpenMcdfMemTest
             //Console.ReadKey();
 
             cf = new CompoundFile("LARGE.cfs", UpdateMode.Update, false, false);
-            CFStream cfst = cf.RootStorage.GetStream("MySuperLargeStream");
+            ICFStream cfst = cf.RootStorage.GetStream("MySuperLargeStream");
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -219,7 +219,7 @@ namespace OpenMcdfMemTest
         private static void AddNodes(String depth, CFStorage cfs)
         {
 
-            VisitedEntryAction va = delegate(CFItem target)
+            VisitedEntryAction va = delegate(ICFItem target)
             {
 
                 String temp = target.Name + (target is CFStorage ? "" : " (" + target.Size + " bytes )");
@@ -269,7 +269,7 @@ namespace OpenMcdfMemTest
                     }
                 }
 
-                CFStream addedStream = cf.RootStorage.AddStream("MyNewStream" + i.ToString());
+                ICFStream addedStream = cf.RootStorage.AddStream("MyNewStream" + i.ToString());
 
                 addedStream.SetData(buffer);
 

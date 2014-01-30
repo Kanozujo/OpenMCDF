@@ -2569,21 +2569,21 @@ namespace OpenMcdf
         /// </summary>
         /// <param name="currSrcStorage">Current source storage to clone</param>
         /// <param name="currDstStorage">Current cloned destination storage</param>
-        private static void DoCompression(CFStorage currSrcStorage, CFStorage currDstStorage)
+        private static void DoCompression(ICFStorage currSrcStorage, ICFStorage currDstStorage)
         {
             VisitedEntryAction va =
-                delegate(CFItem item)
+                delegate(ICFItem item)
                 {
                     if (item.IsStream)
                     {
-                        CFStream itemAsStream = item as CFStream;
-                        CFStream st = ((CFStorage)currDstStorage).AddStream(itemAsStream.Name);
+                        ICFStream itemAsStream = item as ICFStream;
+                        ICFStream st = ((ICFStorage)currDstStorage).AddStream(itemAsStream.Name);
                         st.SetData(itemAsStream.GetData());
                     }
                     else if (item.IsStorage)
                     {
-                        CFStorage itemAsStorage = item as CFStorage;
-                        CFStorage strg = ((CFStorage)currDstStorage).AddStorage(itemAsStorage.Name);
+                        ICFStorage itemAsStorage = item as ICFStorage;
+                        ICFStorage strg = ((ICFStorage)currDstStorage).AddStorage(itemAsStorage.Name);
                         strg.CLSID = new Guid(itemAsStorage.CLSID.ToByteArray());
                         DoCompression(itemAsStorage, strg); // recursion, one level deeper
                     }

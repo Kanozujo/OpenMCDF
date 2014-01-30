@@ -46,13 +46,13 @@ namespace OpenMcdf
     ///
     /// </code>
     /// </example>
-    public delegate void VisitedEntryAction(CFItem item);
+    public delegate void VisitedEntryAction(ICFItem item);
 
     /// <summary>
     /// Storage entity that acts like a logic container for streams
     /// or substorages in a compound file.
     /// </summary>
-    public class CFStorage : CFItem
+    public class CFStorage : CFItem, ICFStorage
     {
         private BinarySearchTree<CFItem> children;
 
@@ -132,7 +132,7 @@ namespace OpenMcdf
         ///  
         /// </code>
         /// </example>
-        public CFStream AddStream(String streamName)
+        public ICFStream AddStream(String streamName)
         {
             CheckDisposed();
 
@@ -190,7 +190,7 @@ namespace OpenMcdf
         /// cf.Close();
         /// </code>
         /// </example>
-        public CFStream GetStream(String streamName)
+        public ICFStream GetStream(String streamName)
         {
             CheckDisposed();
 
@@ -264,7 +264,7 @@ namespace OpenMcdf
         /// cf.Close();
         /// </code>
         /// </example>
-        public CFStorage GetStorage(String storageName)
+        public ICFStorage GetStorage(String storageName)
         {
             CheckDisposed();
 
@@ -338,7 +338,7 @@ namespace OpenMcdf
         ///  
         /// </code>
         /// </example>
-        public CFStorage AddStorage(String storageName)
+        public ICFStorage AddStorage(String storageName)
         {
             CheckDisposed();
 

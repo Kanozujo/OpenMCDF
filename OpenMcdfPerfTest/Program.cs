@@ -21,7 +21,7 @@ namespace OpenMcdfPerfTest
 
             CompoundFile cf = new CompoundFile(fileName);
             DateTime dt = DateTime.Now;
-            CFStream s = cf.RootStorage.GetStream("Test1");
+            ICFStream s = cf.RootStorage.GetStream("Test1");
             TimeSpan ts = DateTime.Now.Subtract(dt);
             Console.WriteLine(ts.TotalMilliseconds.ToString());
             Console.Read();

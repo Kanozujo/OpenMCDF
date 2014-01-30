@@ -70,7 +70,7 @@ namespace OpenMcdfTest
             const String STORAGE_NAME = "NewStorage";
             CompoundFile cf = new CompoundFile();
 
-            CFStorage st = cf.RootStorage.AddStorage(STORAGE_NAME);
+            ICFStorage st = cf.RootStorage.AddStorage(STORAGE_NAME);
 
             Assert.IsNotNull(st);
             Assert.AreEqual(STORAGE_NAME, st.Name, false);
@@ -82,7 +82,7 @@ namespace OpenMcdfTest
             const String STORAGE_NAME = "NewStorage1";
             CompoundFile cf = new CompoundFile();
 
-            CFStorage st = cf.RootStorage.AddStorage(STORAGE_NAME);
+            ICFStorage st = cf.RootStorage.AddStorage(STORAGE_NAME);
             st.CreationDate = DateTime.Now;
 
             Assert.IsNotNull(st);
@@ -101,7 +101,7 @@ namespace OpenMcdfTest
             FileStream output = new FileStream("LogEntries.txt", FileMode.Create);
             TextWriter tw = new StreamWriter(output);
 
-            VisitedEntryAction va = delegate(CFItem item)
+            VisitedEntryAction va = delegate(ICFItem item)
             {
                 tw.WriteLine(item.Name);
             };
@@ -136,7 +136,7 @@ namespace OpenMcdfTest
                 using (TextWriter tw = new StreamWriter(output))
                 {
 
-                    VisitedEntryAction va = delegate(CFItem item)
+                    VisitedEntryAction va = delegate(ICFItem item)
                        {
                            tw.WriteLine(item.Name);
                        };
@@ -186,7 +186,7 @@ namespace OpenMcdfTest
                 using (TextWriter tw = new StreamWriter(output))
                 {
 
-                    VisitedEntryAction va = delegate(CFItem item)
+                    VisitedEntryAction va = delegate(ICFItem item)
                     {
                         tw.WriteLine(item.Name);
                     };
@@ -222,12 +222,12 @@ namespace OpenMcdfTest
 
             CompoundFile ncf = new CompoundFile();
 
-            CFStorage l1 = ncf.RootStorage.AddStorage("Storage Level 1");
+            ICFStorage l1 = ncf.RootStorage.AddStorage("Storage Level 1");
             l1.AddStream("l1ns1");
             l1.AddStream("l1ns2");
             l1.AddStream("l1ns3");
 
-            CFStorage l2 = l1.AddStorage("Storage Level 2");
+            ICFStorage l2 = l1.AddStorage("Storage Level 2");
             l2.AddStream("l2ns1");
             l2.AddStream("l2ns2");
 
@@ -244,7 +244,7 @@ namespace OpenMcdfTest
 
             Console.SetOut(sw);
 
-            VisitedEntryAction va = delegate(CFItem target)
+            VisitedEntryAction va = delegate(ICFItem target)
             {
                 sw.WriteLine(target.Name);
             };
@@ -261,7 +261,7 @@ namespace OpenMcdfTest
             String FILENAME = "MultipleStorage2.cfs";
             CompoundFile cf = new CompoundFile(FILENAME, UpdateMode.ReadOnly, false, false);
 
-            CFStorage st = cf.RootStorage.GetStorage("MyStorage");
+            ICFStorage st = cf.RootStorage.GetStorage("MyStorage");
 
             Assert.IsNotNull(st);
 
@@ -278,8 +278,8 @@ namespace OpenMcdfTest
             String FILENAME = "MultipleStorage2.cfs";
             CompoundFile cf = new CompoundFile(FILENAME);
 
-            CFStorage found = null;
-            VisitedEntryAction action = delegate(CFItem item) { if (item.Name == "AnotherStorage") found = item as CFStorage; };
+            ICFStorage found = null;
+            VisitedEntryAction action = delegate(ICFItem item) { if (item.Name == "AnotherStorage") found = item as ICFStorage; };
             cf.RootStorage.VisitEntries(action, true);
 
             Assert.IsNotNull(found);
@@ -296,8 +296,8 @@ namespace OpenMcdfTest
             String FILENAME = "MultipleStorage3.cfs";
             CompoundFile cf = new CompoundFile(FILENAME);
 
-            CFStorage found = null;
-            VisitedEntryAction action = delegate(CFItem item) { if (item.Name == "AnotherStorage") found = item as CFStorage; };
+            ICFStorage found = null;
+            VisitedEntryAction action = delegate(ICFItem item) { if (item.Name == "AnotherStorage") found = item as ICFStorage; };
             cf.RootStorage.VisitEntries(action, true);
 
             Assert.IsNotNull(found);
@@ -314,7 +314,7 @@ namespace OpenMcdfTest
             const String FILENAME = "MultipleStorage.cfs";
             CompoundFile cf = new CompoundFile(FILENAME);
 
-            CFStorage st = cf.RootStorage.GetStorage("MyStorage");
+            ICFStorage st = cf.RootStorage.GetStorage("MyStorage");
             cf.Close();
 
             try
@@ -344,8 +344,8 @@ namespace OpenMcdfTest
             cf = new CompoundFile("$Hel1");
             IList<CFItem> i = cf.GetAllNamedEntries("Level2Stream");
             Assert.IsNotNull(i[0]);
-            Assert.IsTrue(i[0] is CFStream);
-            Assert.IsTrue((i[0] as CFStream).GetData().Length == 100);
+            Assert.IsTrue(i[0] is ICFStream);
+            Assert.IsTrue((i[0] as ICFStream).GetData().Length == 100);
             cf.Save("$Hel2");
             cf.Close();
 
