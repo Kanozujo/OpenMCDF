@@ -6,7 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OpenMcdf")]
-[assembly: AssemblyDescription("MS Compound File Storage .NET Implementation")]
+[assembly: AssemblyDescription("OpenMCDF is a 100% .net / C# component that allows developers to manipulate Microsoft " +
+    "Compound Document File Format for OLE structured storage. It supports read/write operations on streams and " +
+    "storages and traversal of structures tree.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Federico Blaseotto")]
 [assembly: AssemblyProduct("OpenMcdf")]

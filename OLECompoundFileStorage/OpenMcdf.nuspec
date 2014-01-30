@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Federico Blaseotto</authors>
+    <owners>ironfede</owners>
+    <licenseUrl>http://www.mozilla.org/MPL/1.1/</licenseUrl>
+    <projectUrl>https://github.com/rossknudsen/OpenMCDF</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+	<summary>Structured Storage .net component - pure C#</summary>
+    <releaseNotes>
+	</releaseNotes>
+    <copyright>Federico Blaseotto</copyright>
+	<tags>Structured Storage, Compound file</tags>
+  </metadata>
+</package>
