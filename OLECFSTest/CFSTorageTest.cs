@@ -113,6 +113,31 @@ namespace OpenMcdfTest
         }
 
         [TestMethod]
+        public void Test_VISIT_ENTRIES_PARAMS()
+        {
+            const String STORAGE_NAME = "report.xls";
+            CompoundFile cf = new CompoundFile(STORAGE_NAME);
+
+            FileStream output = new FileStream("LogEntries.txt", FileMode.Create);
+            TextWriter tw = new StreamWriter(output);
+
+            VisitedEntryParamsAction va = delegate(ICFItem item, object[] args)
+            {
+                var castList = (List<string>)args[0];
+                castList.Add(item.Name);
+            };
+
+            var list = new List<string>();
+
+            cf.RootStorage.VisitEntries(va, true, list);
+
+            list.ForEach(tw.WriteLine);
+
+            tw.Close();
+
+        }
+
+        [TestMethod]
         public void Test_VISIT_ENTRIES_CORRUPTED_FILE_VALIDATION_ON()
         {
             CompoundFile f = null;

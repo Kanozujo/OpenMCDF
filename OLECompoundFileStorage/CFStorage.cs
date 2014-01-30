@@ -48,6 +48,9 @@ namespace OpenMcdf
     /// </example>
     public delegate void VisitedEntryAction(ICFItem item);
 
+
+    public delegate void VisitedEntryParamsAction(ICFItem item, params object[] args);
+
     /// <summary>
     /// Storage entity that acts like a logic container for streams
     /// or substorages in a compound file.
@@ -438,6 +441,54 @@ namespace OpenMcdf
                         ((CFStorage)n.Value).VisitEntries(action, recursive);
                     }
             }
+        }
+
+
+        /// <summary>
+        /// This overload of the VisitEntries method allows the passing of a parameter arry of
+        /// objects to the delegate method.
+        /// </summary>
+        /// <param name="action">
+        /// User <see cref="T:OpenMcdf.VisitedEntryParamsAction">action</see> to apply to visited 
+        /// entities
+        /// </param>
+        /// <param name="recursive">
+        /// Visiting recursion level. True means substorages are visited recursively, false 
+        /// indicates that only the direct children of this storage are visited</param>
+        /// <param name="args">
+        /// The arguments to pass through to the delegate method
+        /// </param>
+        /// <example>
+        /// <code>
+        /// const String STORAGE_NAME = "report.xls";
+        /// CompoundFile cf = new CompoundFile(STORAGE_NAME);
+        /// 
+        /// FileStream output = new FileStream("LogEntries.txt", FileMode.Create);
+        /// TextWriter tw = new StreamWriter(output);
+        /// 
+        /// VisitedEntryParamsAction va = delegate(CFItem item, object[] args)
+        /// {
+        ///     var castList = (List<string>)args[0];
+        ///     castList.Add(item.Name);
+        /// };
+        /// 
+        /// var list = new List<string>();
+        /// 
+        /// cf.RootStorage.VisitEntries(va, true, list);
+        /// 
+        /// list.ForEach(tw.WriteLine);
+        /// 
+        /// tw.Close();
+        /// </code>
+        /// </example>
+        public void VisitEntries(VisitedEntryParamsAction action, bool recursive, params object[] args)
+        {
+            VisitedEntryAction wrappedDelegate = delegate(ICFItem item)
+            {
+                action(item, args);
+            };
+
+            VisitEntries(wrappedDelegate, recursive);
         }
 
 
