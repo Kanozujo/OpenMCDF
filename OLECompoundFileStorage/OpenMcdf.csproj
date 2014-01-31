@@ -82,6 +82,7 @@
     <Compile Include="ICFItem.cs" />
     <Compile Include="ICFStorage.cs" />
     <Compile Include="ICFStream.cs" />
+    <Compile Include="ICompoundFile.cs" />
     <Compile Include="SectorCollection.cs" />
     <Compile Include="StreamRW.cs" />
     <Compile Include="IDirectoryEntry.cs" />

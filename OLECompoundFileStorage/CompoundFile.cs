@@ -83,7 +83,7 @@ namespace OpenMcdf
     /// efficent storage of multiple kinds of documents in a single file.
     /// Version 3 and 4 of specifications are supported.
     /// </summary>
-    public class CompoundFile : IDisposable
+    public class CompoundFile : IDisposable, ICompoundFile
     {
         /// <summary>
         /// Returns the size of standard sectors switching on CFS version (3 or 4)
@@ -1512,11 +1512,11 @@ namespace OpenMcdf
         ///    ncf.Close();
         /// </code>
         /// </example>
-        public CFStorage RootStorage
+        public ICFStorage RootStorage
         {
             get
             {
-                return rootStorage as CFStorage;
+                return rootStorage as ICFStorage;
             }
         }
 
@@ -2436,16 +2436,16 @@ namespace OpenMcdf
         /// without the performance penalty related to entities hierarchy constraints.
         /// There is no implied hierarchy in the returned list.
         /// </remarks>
-        public IList<CFItem> GetAllNamedEntries(String entryName)
+        public IList<ICFItem> GetAllNamedEntries(String entryName)
         {
             IList<IDirectoryEntry> r = FindDirectoryEntries(entryName);
-            List<CFItem> result = new List<CFItem>();
+            List<ICFItem> result = new List<ICFItem>();
 
             foreach (IDirectoryEntry id in r)
             {
                 if (id.GetEntryName() == entryName && id.StgType != StgType.StgInvalid)
                 {
-                    CFItem i = id.StgType == StgType.StgStorage ? (CFItem)new CFStorage(this, id) : (CFItem)new CFStream(this, id);
+                    ICFItem i = id.StgType == StgType.StgStorage ? (ICFItem)new CFStorage(this, id) : (ICFItem)new CFStream(this, id);
                     result.Add(i);
                 }
             }

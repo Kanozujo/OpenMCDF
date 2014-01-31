@@ -582,7 +582,7 @@ namespace OpenMcdfTest
         public void Test_RETRIVE_ALL_NAMED_ENTRIES()
         {
             var f = new CompoundFile("MultipleStorage4.cfs");
-            IList<CFItem> result = f.GetAllNamedEntries("MyStream");
+            IList<ICFItem> result = f.GetAllNamedEntries("MyStream");
 
             Assert.IsTrue(result.Count == 3);
         }
