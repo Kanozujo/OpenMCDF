@@ -674,5 +674,24 @@ namespace OpenMcdfTest
         //    f.Save("Astorage.cfs");
         //}
 
+        [TestMethod]
+        public void Test_V3_DIR_ENTRY_SIZE()
+        {
+            CompoundFile f = null;
+            try
+            {
+                f = new CompoundFile("V3DirEntrySize.doc");
+                Assert.IsTrue(f.RootStorage.ExistsStream("WordDocument"));
+                var wordDocStream = f.RootStorage.GetStream("WordDocument");
+                var buf = wordDocStream.GetData();
+                Assert.AreEqual(wordDocStream.Size, buf.LongLength);
+            }
+            finally
+            {
+                if (f != null)
+                    f.Close();
+            }
+             
+        }
     }
 }
