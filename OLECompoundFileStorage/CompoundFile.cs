@@ -1696,7 +1696,7 @@ namespace OpenMcdf
                 = new DirectoryEntry(StgType.StgInvalid);
 
                 //We are not inserting dirs. Do not use 'InsertNewDirectoryEntry'
-                de.Read(dirReader);
+                de.Read(dirReader, Version);
                 directoryEntries.Add(de);
                 de.SID = directoryEntries.Count - 1;
             }
