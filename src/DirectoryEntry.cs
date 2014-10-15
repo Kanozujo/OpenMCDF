@@ -377,7 +377,7 @@ namespace OpenMcdf
         //    return ms.ToArray();
         //}
 
-        public void Read(Stream stream)
+        public void Read(Stream stream, CFSVersion version)
         {
             StreamRW rw = new StreamRW(stream);
 
@@ -403,7 +403,15 @@ namespace OpenMcdf
             creationDate = rw.ReadBytes(8);
             modifyDate = rw.ReadBytes(8);
             startSetc = rw.ReadInt32();
-            size = rw.ReadInt64();
+            if (version == CFSVersion.Ver_3)
+            {
+                size = rw.ReadInt32();
+                var rest = rw.ReadInt32();
+            }
+            else
+            {
+                size = rw.ReadInt64();
+            }
         }
 
         public string Name
