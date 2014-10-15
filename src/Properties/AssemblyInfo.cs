@@ -34,5 +34,15 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.*")]
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("OpenMcdfTest")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("OpenMcdf.Extensions")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("OpenMcdfTest, PublicKey=" + 
+"0024000004800000940000000602000000240000525341310004000001000100832a2fa2333ae5" +
+"79e22b5ec3eac5fc951e4cad38ecaec8c988d8870b251715250bd15108fcc8dd31fc41c7e7b2e0" +
+"0cefb809081b59f27c4e3dc9d02bc7edd1bffa3ed91976e16ee7bd8805ae628e58db62b8f52e8c" + 
+"86fd7587182c107047340360296949da9b455030f7b26f6c4a08a087901b3e7c899a2a929b9d42" +
+"14a5efb5")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("OpenMcdf.Extensions, PublicKey=" +
+"0024000004800000940000000602000000240000525341310004000001000100832a2fa2333ae5" +
+"79e22b5ec3eac5fc951e4cad38ecaec8c988d8870b251715250bd15108fcc8dd31fc41c7e7b2e0" +
+"0cefb809081b59f27c4e3dc9d02bc7edd1bffa3ed91976e16ee7bd8805ae628e58db62b8f52e8c" +
+"86fd7587182c107047340360296949da9b455030f7b26f6c4a08a087901b3e7c899a2a929b9d42" +
+"14a5efb5")]
