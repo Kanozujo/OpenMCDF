@@ -342,7 +342,7 @@ namespace OpenMcdfTest
             cf.Close();
 
             cf = new CompoundFile("$Hel1");
-            IList<CFItem> i = cf.GetAllNamedEntries("Level2Stream");
+            IList<ICFItem> i = cf.GetAllNamedEntries("Level2Stream");
             Assert.IsNotNull(i[0]);
             Assert.IsTrue(i[0] is CFStream);
             Assert.IsTrue((i[0] as CFStream).GetData().Length == 100);

@@ -499,7 +499,7 @@ namespace OpenMcdfTest
             //Phase 6
 
             cf = new CompoundFile("6_Streams_Shrinked.cfs", CFSUpdateMode.Update, CFSConfiguration.SectorRecycle);
-            CFStorage root = cf.RootStorage;
+            CFStorage root = (CFStorage)cf.RootStorage;
           
             root.AddStorage("MiniStorage").AddStream("miniSt").Append(bMini);
            
@@ -588,7 +588,7 @@ namespace OpenMcdfTest
         public void Test_RETRIVE_ALL_NAMED_ENTRIES()
         {
             var f = new CompoundFile("MultipleStorage4.cfs");
-            IList<CFItem> result = f.GetAllNamedEntries("MyStream");
+            IList<ICFItem> result = f.GetAllNamedEntries("MyStream");
 
             Assert.IsTrue(result.Count == 3);
         }
@@ -722,7 +722,7 @@ namespace OpenMcdfTest
             using (CompoundFile file = new CompoundFile(FILE_PATH))
             {
                 //CFStorage dataSpaceInfo = file.RootStorage.GetStorage("\u0006DataSpaces").GetStorage("DataSpaceInfo");
-                CFItem dsiItem = file.GetAllNamedEntries("DataSpaceInfo").FirstOrDefault();
+                CFItem dsiItem = (CFItem)file.GetAllNamedEntries("DataSpaceInfo").FirstOrDefault();
             }
         }
 

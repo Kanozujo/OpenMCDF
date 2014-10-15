@@ -122,7 +122,7 @@ namespace OpenMcdf
     /// efficent storage of multiple kinds of documents in a single file.
     /// Version 3 and 4 of specifications are supported.
     /// </summary>
-    public class CompoundFile : IDisposable
+    public class CompoundFile : IDisposable, ICompoundFile
     {
         private CFSConfiguration configuration
             = CFSConfiguration.Default;
@@ -1562,7 +1562,7 @@ namespace OpenMcdf
         ///    ncf.Close();
         /// </code>
         /// </example>
-        public CFStorage RootStorage
+        public ICFStorage RootStorage
         {
             get
             {
@@ -2737,10 +2737,10 @@ namespace OpenMcdf
         /// without the performance penalty related to entities hierarchy constraints.
         /// There is no implied hierarchy in the returned list.
         /// </remarks>
-        public IList<CFItem> GetAllNamedEntries(String entryName)
+        public IList<ICFItem> GetAllNamedEntries(String entryName)
         {
             IList<IDirectoryEntry> r = FindDirectoryEntries(entryName);
-            List<CFItem> result = new List<CFItem>();
+            List<ICFItem> result = new List<ICFItem>();
 
             foreach (IDirectoryEntry id in r)
             {
@@ -2802,7 +2802,7 @@ namespace OpenMcdf
                 //Copy Root CLSID
                 tempCF.RootStorage.CLSID = new Guid(cf.RootStorage.CLSID.ToByteArray());
 
-                DoCompression(cf.RootStorage, tempCF.RootStorage);
+                DoCompression((CFStorage)cf.RootStorage, (CFStorage)tempCF.RootStorage);
 
                 MemoryStream tmpMS = new MemoryStream((int)cf.sourceStream.Length); //This could be a problem for v4
 

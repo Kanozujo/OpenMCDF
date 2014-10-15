@@ -102,7 +102,7 @@ namespace StructuredStorageExplorer
             root.Tag = cf.RootStorage;
 
             //Recursive function to get all storage and streams
-            AddNodes(root, cf.RootStorage);
+            AddNodes(root, (CFStorage)cf.RootStorage);
         }
 
         private void LoadFile(string fileName, bool enableCommit)
