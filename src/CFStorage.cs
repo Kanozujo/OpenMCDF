@@ -53,7 +53,7 @@ namespace OpenMcdf
     /// Storage entity that acts like a logic container for streams
     /// or substorages in a compound file.
     /// </summary>
-    public class CFStorage : CFItem
+    public class CFStorage : CFItem, ICFStorage
     {
         private RBTree<CFItem> children;
 
@@ -140,7 +140,7 @@ namespace OpenMcdf
         ///  
         /// </code>
         /// </example>
-        public CFStream AddStream(String streamName)
+        public ICFStream AddStream(String streamName)
         {
             CheckDisposed();
 
@@ -174,7 +174,7 @@ namespace OpenMcdf
                 throw new CFDuplicatedItemException("An entry with name '" + streamName + "' is already present in storage '" + this.Name + "' ");
             }
 
-            return cfo as CFStream;
+            return cfo; // as ICFStream;
         }
 
 
@@ -199,7 +199,7 @@ namespace OpenMcdf
         /// cf.Close();
         /// </code>
         /// </example>
-        public CFStream GetStream(String streamName)
+        public ICFStream GetStream(String streamName)
         {
             CheckDisposed();
 
@@ -214,13 +214,50 @@ namespace OpenMcdf
 
             if (Children.TryLookup(tmp, out outDe) && outDe.DirEntry.StgType == StgType.StgStream)
             {
-                return outDe as CFStream;
+                return outDe as ICFStream;
             }
             else
             {
                 throw new CFItemNotFound("Cannot find item [" + streamName + "] within the current storage");
             }
         }
+
+
+        /// <summary>
+        /// Checks whether a child stream exists in the parent.
+        /// </summary>
+        /// <param name="streamName">Name of the stream to look for</param>
+        /// <returns>A boolean value indicating whether the child stream exists.</returns>
+        /// <example>
+        /// <code>
+        /// String filename = "report.xls";
+        ///
+        /// CompoundFile cf = new CompoundFile(filename);
+        /// 
+        /// bool exists = ExistsStream("Workbook");
+        /// 
+        /// if exists
+        /// {
+        ///     CFStream foundStream = cf.RootStorage.GetStream("Workbook");
+        /// 
+        ///     byte[] temp = foundStream.GetData();
+        /// }
+        ///
+        /// Assert.IsNotNull(temp);
+        ///
+        /// cf.Close();
+        /// </code>
+        /// </example>
+        public bool ExistsStream(string streamName)
+        {
+            CheckDisposed();
+
+            var tmp = new CFMock(streamName, StgType.StgStream);
+
+            CFItem outDe = null;
+            return Children.TryLookup(tmp, out outDe) && outDe.DirEntry.StgType == StgType.StgStream;
+        }
+
 
         /// <summary>
         /// Get a named storage contained in the current one if existing.
@@ -241,7 +278,7 @@ namespace OpenMcdf
         /// cf.Close();
         /// </code>
         /// </example>
-        public CFStorage GetStorage(String storageName)
+        public ICFStorage GetStorage(String storageName)
         {
             CheckDisposed();
 
@@ -256,6 +293,38 @@ namespace OpenMcdf
             {
                 throw new CFItemNotFound("Cannot find item [" + storageName + "] within the current storage");
             }
+        }
+
+
+        /// <summary>
+        /// Checks if a child storage exists within the parent.
+        /// </summary>
+        /// <param name="storageName">Name of the storage to look for.</param>
+        /// <returns>A boolean value indicating whether the child storage was found.</returns>
+        /// <example>
+        /// <code>
+        /// String FILENAME = "MultipleStorage2.cfs";
+        /// CompoundFile cf = new CompoundFile(FILENAME, UpdateMode.ReadOnly, false, false);
+        ///
+        /// bool exists = cf.RootStorage.ExistsStorage("MyStorage");
+        /// 
+        /// if exists
+        /// {
+        ///     CFStorage st = cf.RootStorage.GetStorage("MyStorage");
+        /// }
+        /// 
+        /// Assert.IsNotNull(st);
+        /// cf.Close();
+        /// </code>
+        /// </example>
+        public bool ExistsStorage(string storageName)
+        {
+            CheckDisposed();
+
+            var tmp = new CFMock(storageName, StgType.StgStorage);
+
+            CFItem outDe = null;
+            return Children.TryLookup(tmp, out outDe) && outDe.DirEntry.StgType == StgType.StgStorage;
         }
 
 
@@ -283,7 +352,7 @@ namespace OpenMcdf
         ///  
         /// </code>
         /// </example>
-        public CFStorage AddStorage(String storageName)
+        public ICFStorage AddStorage(String storageName)
         {
             CheckDisposed();
 

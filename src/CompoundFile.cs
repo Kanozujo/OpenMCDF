@@ -2878,13 +2878,13 @@ namespace OpenMcdf
                     if (item.IsStream)
                     {
                         CFStream itemAsStream = item as CFStream;
-                        CFStream st = ((CFStorage)currDstStorage).AddStream(itemAsStream.Name);
+                        CFStream st = (CFStream)(currDstStorage.AddStream(itemAsStream.Name));
                         st.SetData(itemAsStream.GetData());
                     }
                     else if (item.IsStorage)
                     {
                         CFStorage itemAsStorage = item as CFStorage;
-                        CFStorage strg = ((CFStorage)currDstStorage).AddStorage(itemAsStorage.Name);
+                        CFStorage strg = (CFStorage)(currDstStorage.AddStorage(itemAsStorage.Name));
                         strg.CLSID = new Guid(itemAsStorage.CLSID.ToByteArray());
                         DoCompression(itemAsStorage, strg); // recursion, one level deeper
                     }

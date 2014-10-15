@@ -71,8 +71,8 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile("MultipleStorage_Deleted_Compress.cfs", CFSUpdateMode.Update, CFSConfiguration.SectorRecycle | CFSConfiguration.EraseFreeSectors);
 
-            CFStorage st = cf.RootStorage.GetStorage("MyStorage");
-            st = st.GetStorage("AnotherStorage");
+            CFStorage st = (CFStorage)cf.RootStorage.GetStorage("MyStorage");
+            st = (CFStorage)st.GetStorage("AnotherStorage");
 
             Assert.IsNotNull(st);
             st.Delete("Another2Stream");
@@ -100,14 +100,14 @@ namespace OpenMcdfTest
 
             // Try Storage entry name with max characters.
             Assert.IsNotNull(cf.RootStorage.AddStorage(maxCharactersStorageName));
-            CFStorage strg = cf.RootStorage.GetStorage(maxCharactersStorageName);
+            CFStorage strg = (CFStorage)cf.RootStorage.GetStorage(maxCharactersStorageName);
             Assert.IsNotNull(strg);
             Assert.IsTrue(strg.Name == maxCharactersStorageName);
 
 
             // Try Stream entry name with max characters.
             Assert.IsNotNull(cf.RootStorage.AddStream(maxCharactersStreamName));
-            CFStream strm = cf.RootStorage.GetStream(maxCharactersStreamName);
+            CFStream strm = (CFStream)cf.RootStorage.GetStream(maxCharactersStreamName);
             Assert.IsNotNull(strm);
             Assert.IsTrue(strm.Name == maxCharactersStreamName);
 
@@ -148,8 +148,8 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile(FILENAME);
 
-            CFStorage st = cf.RootStorage.GetStorage("MyStorage");
-            st = st.GetStorage("AnotherStorage");
+            CFStorage st = (CFStorage)cf.RootStorage.GetStorage("MyStorage");
+            st = (CFStorage)st.GetStorage("AnotherStorage");
 
             Assert.IsNotNull(st);
 
@@ -172,8 +172,8 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile(CFSVersion.Ver_4, CFSConfiguration.EraseFreeSectors | CFSConfiguration.SectorRecycle);
 
-            CFStorage st = cf.RootStorage.AddStorage("MyStorage");
-            CFStream sm = st.AddStream("MyStream");
+            CFStorage st = (CFStorage)cf.RootStorage.AddStorage("MyStorage");
+            CFStream sm = (CFStream)st.AddStream("MyStream");
             byte[] b = new byte[220];
             sm.SetData(b);
 
@@ -181,8 +181,8 @@ namespace OpenMcdfTest
             cf.Close();
 
             CompoundFile cf2 = new CompoundFile(filename);
-            CFStorage st2 = cf2.RootStorage.GetStorage("MyStorage");
-            CFStream sm2 = st2.GetStream("MyStream");
+            CFStorage st2 = (CFStorage)cf2.RootStorage.GetStorage("MyStorage");
+            CFStream sm2 = (CFStream)st2.GetStream("MyStream");
 
             Assert.IsNotNull(sm2);
             Assert.IsTrue(sm2.Size == 220);
@@ -197,8 +197,8 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile(CFSVersion.Ver_4, CFSConfiguration.SectorRecycle | CFSConfiguration.EraseFreeSectors);
 
-            CFStorage st = cf.RootStorage.AddStorage("MyStorage");
-            CFStream sm = st.AddStream("MyStream");
+            CFStorage st = (CFStorage)cf.RootStorage.AddStorage("MyStorage");
+            CFStream sm = (CFStream)st.AddStream("MyStream");
             byte[] b = Helpers.GetBuffer(227);
             sm.SetData(b);
 
@@ -206,8 +206,8 @@ namespace OpenMcdfTest
             cf.Close();
 
             CompoundFile cf2 = new CompoundFile(filename);
-            CFStorage st2 = cf2.RootStorage.GetStorage("MyStorage");
-            CFStream sm2 = st2.GetStream("MyStream");
+            CFStorage st2 = (CFStorage)cf2.RootStorage.GetStorage("MyStorage");
+            CFStream sm2 = (CFStream)st2.GetStream("MyStream");
 
             Assert.IsNotNull(sm2);
             Assert.IsTrue(sm2.Size == b.Length);
@@ -222,7 +222,7 @@ namespace OpenMcdfTest
             File.Copy(filename, "reportOPENFROMSTREAM.xls");
             FileStream fs = new FileStream(filename, FileMode.Open);
             CompoundFile cf = new CompoundFile(fs);
-            CFStream foundStream = cf.RootStorage.GetStream("Workbook");
+            CFStream foundStream = (CFStream)cf.RootStorage.GetStream("Workbook");
 
             byte[] temp = foundStream.GetData();
 
@@ -252,7 +252,7 @@ namespace OpenMcdfTest
         public void Test_OPEN_COMPOUND_BUG_FIX_133()
         {
             var f = new CompoundFile("testbad.ole");
-            CFStream cfs = f.RootStorage.GetStream("\x01Ole10Native");
+            CFStream cfs = (CFStream)f.RootStorage.GetStream("\x01Ole10Native");
             byte[] data = cfs.GetData();
             Assert.IsTrue(data.Length == 18140);
         }
@@ -261,13 +261,13 @@ namespace OpenMcdfTest
         public void Test_COMPARE_DIR_ENTRY_NAME_BUG_FIX_ID_3487353()
         {
             var f = new CompoundFile("report_name_fix.xls", CFSUpdateMode.Update, CFSConfiguration.SectorRecycle | CFSConfiguration.EraseFreeSectors);
-            CFStream cfs = f.RootStorage.AddStream("Poorbook");
+            CFStream cfs = (CFStream)f.RootStorage.AddStream("Poorbook");
             cfs.Append(Helpers.GetBuffer(20));
             f.Commit();
             f.Close();
 
             f = new CompoundFile("report_name_fix.xls", CFSUpdateMode.Update, CFSConfiguration.SectorRecycle | CFSConfiguration.EraseFreeSectors);
-            cfs = f.RootStorage.GetStream("Workbook");
+            cfs = (CFStream)f.RootStorage.GetStream("Workbook");
             Assert.IsTrue(cfs.Name == "Workbook");
             f.RootStorage.Delete("PoorBook");
             f.Commit();
@@ -317,7 +317,7 @@ namespace OpenMcdfTest
 
             // Test Phase 1
             var cfTest = new CompoundFile("OneStream.cfs");
-            CFStream testSt = cfTest.RootStorage.GetStream("A");
+            CFStream testSt = (CFStream)cfTest.RootStorage.GetStream("A");
 
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bA.Length);
@@ -346,37 +346,37 @@ namespace OpenMcdfTest
 
             cfTest = new CompoundFile("8_Streams.cfs");
 
-            testSt = cfTest.RootStorage.GetStream("B");
+            testSt = (CFStream)cfTest.RootStorage.GetStream("B");
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bB.Length);
             Assert.IsTrue(Helpers.CompareBuffer(bB, testSt.GetData()));
 
-            testSt = cfTest.RootStorage.GetStream("C");
+            testSt = (CFStream)cfTest.RootStorage.GetStream("C");
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bC.Length);
             Assert.IsTrue(Helpers.CompareBuffer(bC, testSt.GetData()));
 
-            testSt = cfTest.RootStorage.GetStream("D");
+            testSt = (CFStream)cfTest.RootStorage.GetStream("D");
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bD.Length);
             Assert.IsTrue(Helpers.CompareBuffer(bD, testSt.GetData()));
 
-            testSt = cfTest.RootStorage.GetStream("E");
+            testSt = (CFStream)cfTest.RootStorage.GetStream("E");
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bE.Length);
             Assert.IsTrue(Helpers.CompareBuffer(bE, testSt.GetData()));
 
-            testSt = cfTest.RootStorage.GetStream("F");
+            testSt = (CFStream)cfTest.RootStorage.GetStream("F");
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bF.Length);
             Assert.IsTrue(Helpers.CompareBuffer(bF, testSt.GetData()));
 
-            testSt = cfTest.RootStorage.GetStream("G");
+            testSt = (CFStream)cfTest.RootStorage.GetStream("G");
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bG.Length);
             Assert.IsTrue(Helpers.CompareBuffer(bG, testSt.GetData()));
 
-            testSt = cfTest.RootStorage.GetStream("H");
+            testSt = (CFStream)cfTest.RootStorage.GetStream("H");
             Assert.IsNotNull(testSt);
             Assert.IsTrue(testSt.Size == bH.Length);
             Assert.IsTrue(Helpers.CompareBuffer(bH, testSt.GetData()));
@@ -407,7 +407,7 @@ namespace OpenMcdfTest
 
             try
             {
-                testSt = cfTest.RootStorage.GetStream("D");
+                testSt = (CFStream)cfTest.RootStorage.GetStream("D");
                
             }
             catch (Exception ex)
@@ -422,7 +422,7 @@ namespace OpenMcdfTest
 
             try
             {
-                testSt = cfTest.RootStorage.GetStream("G");
+                testSt = (CFStream)cfTest.RootStorage.GetStream("G");
             }
             catch (Exception ex)
             {
@@ -621,7 +621,7 @@ namespace OpenMcdfTest
             try
             {
                 f = new CompoundFile();
-                CFStream st = f.RootStorage.AddStream("LargeStream");
+                CFStream st = (CFStream)f.RootStorage.AddStream("LargeStream");
                 st.Append(Helpers.GetBuffer(20000000, 0x0A));       //Forcing creation of two DIFAT sectors
                 byte[] b1 = Helpers.GetBuffer(3, 0x0B);
                 st.Append(b1);                                      //Forcing creation of two DIFAT sectors
@@ -662,7 +662,7 @@ namespace OpenMcdfTest
 
                 for (int i = 0; i < ITEM_NUMBER; i++)
                 {
-                    CFStream st = f.RootStorage.AddStream("Stream" + i.ToString());
+                    CFStream st = (CFStream)f.RootStorage.AddStream("Stream" + i.ToString());
                     st.Append(buffer);
                 }
 
@@ -674,7 +674,7 @@ namespace OpenMcdfTest
                 f.Close();
 
                 f = new CompoundFile("$ItemsLargeNumber.cfs");
-                CFStream cfs = f.RootStorage.GetStream("Stream" + (ITEM_NUMBER / 2).ToString());
+                CFStream cfs = (CFStream)f.RootStorage.GetStream("Stream" + (ITEM_NUMBER / 2).ToString());
 
                 Assert.IsTrue(cfs != null,"Item is null");
                 Assert.IsTrue(Helpers.CompareBuffer(cfs.GetData(), buffer),"Items are different");
@@ -700,7 +700,7 @@ namespace OpenMcdfTest
 
             CompoundFile cf = new CompoundFile(FILE_PATH);
 
-            CFStream dirStream = cf.RootStorage.GetStorage("_VBA_PROJECT_CUR").GetStorage("VBA").GetStream("dir");
+            CFStream dirStream = (CFStream)cf.RootStorage.GetStorage("_VBA_PROJECT_CUR").GetStorage("VBA").GetStream("dir");
 
             byte[] currentData = dirStream.GetData();
 

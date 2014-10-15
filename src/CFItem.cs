@@ -45,7 +45,7 @@ namespace OpenMcdf
     /// 
     /// </code>
     /// </example>
-    public abstract class CFItem : IComparable<CFItem>
+    public abstract class CFItem : IComparable<CFItem>, ICFItem
     {
         private CompoundFile compoundFile;
 

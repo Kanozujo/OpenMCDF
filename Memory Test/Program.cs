@@ -134,7 +134,7 @@ namespace OpenMcdfMemTest
             byte[] cmp = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7 };
 
             CompoundFile cf = new CompoundFile(CFSVersion.Ver_4, CFSConfiguration.Default);
-            CFStream st = cf.RootStorage.AddStream("MySuperLargeStream");
+            CFStream st = (CFStream)cf.RootStorage.AddStream("MySuperLargeStream");
             cf.Save("LARGE.cfs");
             cf.Close();
 
@@ -142,7 +142,7 @@ namespace OpenMcdfMemTest
             //Console.ReadKey();
 
             cf = new CompoundFile("LARGE.cfs", CFSUpdateMode.Update, CFSConfiguration.Default);
-            CFStream cfst = cf.RootStorage.GetStream("MySuperLargeStream");
+            CFStream cfst = (CFStream)cf.RootStorage.GetStream("MySuperLargeStream");
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -267,7 +267,7 @@ namespace OpenMcdfMemTest
                     }
                 }
 
-                CFStream addedStream = cf.RootStorage.AddStream("MyNewStream" + i.ToString());
+                CFStream addedStream = (CFStream)cf.RootStorage.AddStream("MyNewStream" + i.ToString());
 
                 addedStream.SetData(buffer);
 

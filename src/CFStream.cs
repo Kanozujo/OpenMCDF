@@ -27,7 +27,7 @@ namespace OpenMcdf
     /// It is contained inside a Storage object in a file-directory
     /// relationship and indexed by its name.
     /// </summary>
-    public class CFStream : CFItem
+    public class CFStream : CFItem, ICFStream
     {
         private long position = 0;
 

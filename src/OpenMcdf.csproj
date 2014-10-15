@@ -69,6 +69,9 @@
     <Compile Include="DirectoryEntry.cs" />
     <Compile Include="Header.cs" />
     <Compile Include="CFStream.cs" />
+    <Compile Include="ICFItem.cs" />
+    <Compile Include="ICFStorage.cs" />
+    <Compile Include="ICFStream.cs" />
     <Compile Include="RBTree\RBTree.cs" />
     <Compile Include="SectorCollection.cs" />
     <Compile Include="StreamRW.cs" />

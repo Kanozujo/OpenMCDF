@@ -66,7 +66,7 @@ namespace OpenMcdfTest
             const String STORAGE_NAME = "NewStorage";
             CompoundFile cf = new CompoundFile();
 
-            CFStorage st = cf.RootStorage.AddStorage(STORAGE_NAME);
+            CFStorage st = (CFStorage)cf.RootStorage.AddStorage(STORAGE_NAME);
 
             Assert.IsNotNull(st);
             Assert.AreEqual(STORAGE_NAME, st.Name, false);
@@ -78,7 +78,7 @@ namespace OpenMcdfTest
             const String STORAGE_NAME = "NewStorage1";
             CompoundFile cf = new CompoundFile();
 
-            CFStorage st = cf.RootStorage.AddStorage(STORAGE_NAME);
+            CFStorage st = (CFStorage)cf.RootStorage.AddStorage(STORAGE_NAME);
             st.CreationDate = DateTime.Now;
 
             Assert.IsNotNull(st);
@@ -217,12 +217,12 @@ namespace OpenMcdfTest
 
             CompoundFile ncf = new CompoundFile();
 
-            CFStorage l1 = ncf.RootStorage.AddStorage("Storage Level 1");
+            CFStorage l1 = (CFStorage)ncf.RootStorage.AddStorage("Storage Level 1");
             l1.AddStream("l1ns1");
             l1.AddStream("l1ns2");
             l1.AddStream("l1ns3");
 
-            CFStorage l2 = l1.AddStorage("Storage Level 2");
+            CFStorage l2 = (CFStorage)l1.AddStorage("Storage Level 2");
             l2.AddStream("l2ns1");
             l2.AddStream("l2ns2");
 
@@ -256,7 +256,7 @@ namespace OpenMcdfTest
             String FILENAME = "MultipleStorage2.cfs";
             CompoundFile cf = new CompoundFile(FILENAME, CFSUpdateMode.ReadOnly, CFSConfiguration.Default);
 
-            CFStorage st = cf.RootStorage.GetStorage("MyStorage");
+            CFStorage st = (CFStorage)cf.RootStorage.GetStorage("MyStorage");
 
             Assert.IsNotNull(st);
 
@@ -314,7 +314,7 @@ namespace OpenMcdfTest
             const String FILENAME = "MultipleStorage.cfs";
             CompoundFile cf = new CompoundFile(FILENAME);
 
-            CFStorage st = cf.RootStorage.GetStorage("MyStorage");
+            CFStorage st = (CFStorage)cf.RootStorage.GetStorage("MyStorage");
             cf.Close();
 
             try
